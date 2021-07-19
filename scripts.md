@@ -8,11 +8,18 @@ TODO
 
 title: "Cloudflare - Restore original visitor IPs"
 description: "If you use Cloudflare and need to use the original requesting IP instead Cloudflare's proxy IP for a downstream process, run this script to pull the visitor's IP. This adds a lookup file that will be used by NGINX."
+tags: "cloudflare"
 
 ```
 #Verify IP list on https://support.cloudflare.com/hc/en-us/articles/200170786-Restoring-original-visitor-IPs-logging-visitor-IP-addresses
 
-touch /etc/nginx/conf.d/cloudflare-restore-ips.conf
+FILE=/etc/nginx/conf.d/cloudflare_restore_ips.conf
+if test -f "$FILE"; then
+    echo "File already exists."
+    exit 0
+fi
+
+touch "$FILE"
 
 echo "
 set_real_ip_from 103.21.244.0/22;
@@ -41,5 +48,44 @@ set_real_ip_from 2a06:98c0::/29;
 #use any of the following two
 
 real_ip_header CF-Connecting-IP;
-#real_ip_header X-Forwarded-For;" >> /etc/nginx/conf.d/cloudflare-restore-ips.conf
+#real_ip_header X-Forwarded-For;" >> "$FILE"
+
+echo "Cloudflare restore original IPs file has been successfully added."
+exit 0
+```
+
+title: "WordPress CLI"
+description: "Install and configure WordPress CLI commands to run from anywhere."
+tags: "wordpress"
+
+```
+if type "wp" > /dev/null; then
+echo "WordPress CLI already installed"
+else 
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+sudo mv wp-cli.phar /usr/local/bin/wp
+echo "WordPress CLI has been successfully installed"
+fi
+```
+
+title: ""
+description: ""
+tags: ""
+
+```
+```
+
+title: ""
+description: ""
+tags: ""
+
+```
+```
+
+title: ""
+description: ""
+tags: ""
+
+```
 ```
