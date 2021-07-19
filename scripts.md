@@ -1,14 +1,13 @@
-title: "VIM Config"
-description: "Set vim settings for command line."
-tags: "vim"
-
+title: VIM Config
+description: Set vim settings for command line.
+tags: vim
 ```
 TODO
 ```
 
-title: "Cloudflare - Restore original visitor IPs"
-description: "If you use Cloudflare and need to use the original requesting IP instead Cloudflare's proxy IP for a downstream process, run this script to pull the visitor's IP. This adds a lookup file that will be used by NGINX."
-tags: "cloudflare"
+title: Cloudflare - Restore original visitor IPs
+description: If you use Cloudflare and need to use the original requesting IP instead Cloudflare's proxy IP for a downstream process, run this script to pull the visitor's IP. This adds a lookup file that will be used by NGINX.
+tags: cloudflare
 
 ```
 #Verify IP list on https://support.cloudflare.com/hc/en-us/articles/200170786-Restoring-original-visitor-IPs-logging-visitor-IP-addresses
@@ -54,9 +53,9 @@ echo "Cloudflare restore original IPs file has been successfully added."
 exit 0
 ```
 
-title: "WordPress CLI"
-description: "Install and configure WordPress CLI commands to run from anywhere."
-tags: "wordpress"
+title: WordPress CLI
+description: Install and configure WordPress CLI commands to run from anywhere.
+tags: wordpress
 
 ```
 if type "wp" > /dev/null; then
@@ -69,23 +68,23 @@ echo "WordPress CLI has been successfully installed"
 fi
 ```
 
-title: ""
-description: ""
-tags: ""
+title: 
+description: 
+tags: 
 
 ```
 ```
 
-title: ""
-description: ""
-tags: ""
+title: 
+description: 
+tags: 
 
 ```
 ```
 
-title: ""
-description: ""
-tags: ""
+title: 
+description: 
+tags: 
 
 ```
 ```
