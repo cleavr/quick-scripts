@@ -5,7 +5,7 @@ tags: cloudflare
 ---
 
 ```
-#Verify IP list on https://support.cloudflare.com/hc/en-us/articles/200170786-Restoring-original-visitor-IPs-logging-visitor-IP-addresses
+# Verify IP list on https://support.cloudflare.com/hc/en-us/articles/200170786-Restoring-original-visitor-IPs-logging-visitor-IP-addresses
 
 FILE=/etc/nginx/conf.d/cloudflare_restore_ips.conf
 if test -f "$FILE"; then
@@ -39,10 +39,10 @@ set_real_ip_from 2405:8100::/32;
 set_real_ip_from 2c0f:f248::/32;
 set_real_ip_from 2a06:98c0::/29;
 
-#use any of the following two
+# use any of the following two
 
 real_ip_header CF-Connecting-IP;
-#real_ip_header X-Forwarded-For;" >> "$FILE"
+# real_ip_header X-Forwarded-For;" >> "$FILE"
 
 echo "Cloudflare restore original IPs file has been successfully added."
 exit 0
