@@ -6,6 +6,6 @@ tags: php, wordpress
 ---
 
 ```
-apt install php-imagick
+apt-get -y install php-imagick
 systemctl restart nginx
 ```
