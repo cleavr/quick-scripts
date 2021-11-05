@@ -2,7 +2,7 @@
 title: Plausible Analytics
 description: Before running script, first install Docker in the server's services section and add a new Generic Port App to your server and set port to 8000. Then, run the script as cleavr user.  
 runAs: root
-tags: php, wordpress
+tags: analytics
 ---
 
 ```
