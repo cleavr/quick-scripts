@@ -92,11 +92,11 @@ else
   echo "Env path {{ releasePath }}/.env is already linked to {{ projectPath }}/.env"
 fi
 
+echo "Build App"
+
 if [ ! -d "{{ currentPath }}/node_modules" ]; then
 
 cd "{{ appFolderPath }}"
-
-echo "Build App 20231201091117744"
 
 if [ -f yarn.lock ]; then
   echo 'Found yarn.lock. Installing packages yarn with frozen lockfile'
