@@ -5,6 +5,7 @@ tags: deployment, laravel, sites
 ---
 
 ```
+## Copy Project
 echo 'Cloning {{ repository }}:{{ branch }} to {{ releasePath }}'
 mkdir -p {{ releasePath }}
 
@@ -127,37 +128,66 @@ else
   echo "Env path {{ releasePath }}/.env is already linked to {{ projectPath }}/.env"
 fi
 
-cd "{{ appFolderPath }}"
-php `which composer` install --no-dev --no-ansi --no-interaction --optimize-autoloader --prefer-dist
+## Link Env
+if [[ ! -f "{{ releasePath }}"/.env && -f "{{ projectPath }}/.env" ]]; then
+  chown {{ username }}:{{ username }} {{ projectPath }}/.env
+  chmod 0600 {{ projectPath }}/.env
+  ln -s "{{ projectPath }}/.env" "{{ releasePath }}/.env"
+  echo "Successfully linked {{ releasePath }}/.env to {{ projectPath }}/.env"
+else
+  echo "Env path {{ releasePath }}/.env is already linked to {{ projectPath }}/.env"
+fi
 
+## Installing composer
+cd "{{ appFolderPath }}"
+php{{ phpVersion }} `which composer` install --no-dev --no-ansi --no-interaction --optimize-autoloader --prefer-dist
+
+## Installing yarn dependencies
 cd "{{ appFolderPath }}"
 
 if [ -f yarn.lock ]; then
   echo 'Found yarn.lock. Installing packages yarn with frozen lockfile'
-  yarn install --frozen-lockfile 
+  yarn install --frozen-lockfile
 elif [ -f package-lock.json ]; then
   echo 'Found package-lock.json. Installing packages using npm ci'
-  npm ci 
+  npm ci
 else
   echo 'Missing lock file(s). Installing packages using npm install'
-  npm install 
+  npm install
 fi
 
-## build_prod_assets_with_yarn
-
+## Build Frontend Production Assets
 cd "{{ appFolderPath }}"
 echo "Building the app using {{{ buildCommand }}} ..."
 npm run build
 
 
-## build cache
-
+## Build Config Cache
 ln -sfn "{{ appFolderPath }}" "{{ currentPath }}"
 echo "Activated {{ appFolderPath }}"
 cd "{{ appFolderPath }}"
 php artisan config:cache
 
-## clean old deployments
+
+## Migrate database
+ln -sfn "{{ appFolderPath }}" "{{ currentPath }}"
+echo "Activated {{ appFolderPath }}"
+echo 'Preparing to migrate the database'
+if [ -f "{{ projectPath }}"/.env ]; then
+    cd "{{ appFolderPath }}"
+    php{{ phpVersion }} artisan migrate --force
+else
+  echo ".env file is needed to run the migration. Database migration is skipped in this deployment."
+fi
+
+## Activate new deployment
+ln -sfn "{{ appFolderPath }}" "{{ currentPath }}"
+echo "Activated {{ appFolderPath }}"
+cd "{{ releasesPath }}"
+echo 'Reloading PHP-FPM'
+sudo service php{{ phpVersion }}-fpm reload
+
+## Clean Old Deployments
 cd "{{ releasesPath }}"
 echo "Cleaning up {{ releasesToPrune }}"
 rm -rf {{ releasesToPrune }} > /dev/null 2>&1
